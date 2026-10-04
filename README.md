@@ -1,5 +1,7 @@
 # Expense Tracker
 
+Live demo: https://expense-tracker-vachan-s-panicker.vercel.app/
+
 A simple browser-based expense tracker that lets you record and manage your income and expenses. All data is stored locally in the browser using localStorage, so no backend or server is required.
 
 ## Features
