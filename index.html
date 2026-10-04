@@ -100,6 +100,29 @@
         return JSON.parse(transactions);
     }
 
+    function createListItem(transaction) {
+        const li = document.createElement("li");
+        li.textContent = `${transaction.description} - ${transaction.amount} (${transaction.date})`;
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.className = "delete-btn";
+        deleteBtn.onclick = () => deleteTransaction(transaction.id);
+        li.appendChild(deleteBtn);
+
+        return li;
+    }
+
+    function deleteTransaction(id) {
+        transactions = transactions.filter(t => t.id !== id);
+        setTransactions(transactions);
+        listExpenses();
+        listIncome();
+        displayTotalExpense();
+        displayTotalIncome();
+        calculateBalance();
+    }
+
     function listExpenses() {
         const expense_list = document.getElementById("expense_list");
         //we have to clear  the list for rebuilding otherwise elenments get appended to itself..this prevents repition
@@ -107,9 +130,7 @@
 
         transactions.forEach((transaction) => {
             if (transaction.type === "expense") {
-                const expense_list_item = document.createElement("li");
-                expense_list_item.textContent = `${transaction.description} - ${transaction.amount} (${transaction.date})`
-                expense_list.appendChild(expense_list_item);
+                expense_list.appendChild(createListItem(transaction));
             }
         });
 
@@ -122,9 +143,7 @@
         transactions.forEach((transaction) => {
             if (transaction.type === "expense") {
                 if (expenseFilterValue === "all" || transaction.category === expenseFilterValue) {
-                    const expense_list_item = document.createElement("li");
-                    expense_list_item.textContent = `${transaction.description} - ${transaction.amount} (${transaction.date})`;
-                    expense_list.appendChild(expense_list_item);
+                    expense_list.appendChild(createListItem(transaction));
                 }
             }
         });
@@ -137,9 +156,7 @@
         transactions.forEach((transaction) => {
             if (transaction.type === "income") {
                 if (incomeFilterValue === "all" || transaction.category === incomeFilterValue) {
-                    const income_list_item = document.createElement("li");
-                    income_list_item.textContent = `${transaction.description} - ${transaction.amount} (${transaction.date})`;
-                    income_list.appendChild(income_list_item);
+                    income_list.appendChild(createListItem(transaction));
                 }
             }
         });
@@ -151,9 +168,7 @@
 
         transactions.forEach((transaction) => {
             if (transaction.type === "income") {
-                const income_list_item = document.createElement("li");
-                income_list_item.textContent = `${transaction.description} - ${transaction.amount} (${transaction.date})`
-                income_list.appendChild(income_list_item);
+                income_list.appendChild(createListItem(transaction));
             }
         });
 
@@ -242,7 +257,7 @@
         const category = document.getElementById("expense_category").value;
 
         const transaction = {
-            type, amount, date, description, category
+            id: crypto.randomUUID(), type, amount, date, description, category
         }
 
         transactions.push(transaction);
@@ -261,7 +276,7 @@
         const category = document.getElementById("income_category").value;
 
         const transaction = {
-            type, amount, date, description, category
+            id: crypto.randomUUID(), type, amount, date, description, category
         }
 
         transactions.push(transaction);
