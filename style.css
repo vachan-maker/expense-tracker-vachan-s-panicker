@@ -1,0 +1,160 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  background: #f5f5f5;
+  color: #333;
+  padding: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+}
+
+
+#opening_balance_section,
+#total_income_section,
+#total_expense_section {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#opening_balance_section p:first-child,
+#current_balance_section p:first-child,
+#total_income_section p:first-child,
+#total_expense_section p:first-child {
+  font-weight: bold;
+  min-width: 130px;
+}
+
+
+input[type="button"],
+input[type="submit"] {
+  background: #4a90d9;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+input[type="button"]:hover,
+input[type="submit"]:hover {
+  background: #357abd;
+}
+
+
+section:not(#opening_balance_section):not(#total_income_section):not(#total_expense_section):not(#expense_list_section):not(#income_list_section):not(.transaction_list) {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+
+form {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  width: 100%;
+}
+
+form label {
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+form input[type="number"],
+form input[type="date"],
+form input[type="text"],
+form select {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.9rem;
+  width: 160px;
+}
+
+
+.transaction_list {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+#expense_list_section,
+#income_list_section {
+  flex: 1;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+#expense_list_section select,
+#income_list_section select {
+  margin-bottom: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.9rem;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+}
+
+ul li:last-child {
+  border-bottom: none;
+}
+
+/* Responsive: stack lists on small screens */
+@media (max-width: 600px) {
+  .transaction_list {
+    flex-direction: column;
+  }
+
+  form input[type="number"],
+  form input[type="date"],
+  form input[type="text"],
+  form select {
+    width: 100%;
+  }
+}

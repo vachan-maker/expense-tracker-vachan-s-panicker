@@ -2,7 +2,9 @@
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <h1>Expense Tracker</h1>
@@ -10,6 +12,10 @@
     <p>Opening Balance</p>
     <p id="opening_balance"></p>
     <input type="button" value="Edit" onclick="readBalanceFromUser()" />
+</section>
+<section id="current_balance_section">
+    <p>Current Balance</p>
+    <p id="current_balance"></p>
 </section>
 <section id="total_income_section">
     <p>Total Income</p>
@@ -53,7 +59,7 @@
         <input type="submit" value="Add Income" />
     </form>
 </section>
-<section class="transaction_list" style="display: flex; flex-direction: row;">
+<section class="transaction_list">
     <section id="expense_list_section">
         <h2>Expense</h2>
         <select id="expense_filter" onchange="filterExpenses()">
@@ -173,7 +179,12 @@
         return expense;
     }
     function calculateBalance () {
-        return readOpeningBalance() +calculateTotalIncome() - calculateTotalExpense();
+        const balance = readOpeningBalance() +calculateTotalIncome() - calculateTotalExpense();
+        updateBalance(balance);
+        return balance;
+    }
+    function updateBalance(balance) {
+        document.getElementById("current_balance").textContent = balance
     }
     function displayTotalIncome() {
         document.getElementById("total_income").innerHTML = calculateTotalIncome();
