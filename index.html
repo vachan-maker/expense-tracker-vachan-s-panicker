@@ -10,6 +10,14 @@
     <p id="opening_balance"></p>
     <input type="button" value="Edit" onclick="readBalanceFromUser()" />
 </section>
+<section id="total_income_section">
+    <p>Total Income</p>
+    <p id="total_income"></p>
+</section>
+<section id="total_expense_section">
+    <p>Total Expense</p>
+    <p id="total_expense"></p>
+</section>
 <section>
     <input type="button" value="Add Expense" onclick="showExpenseForm()" />
     <form style="display: none;" id="expense_form" onsubmit="submitExpenseForm(event)">
@@ -96,8 +104,41 @@
                 income_list_item.textContent = `${transaction.description} - ${transaction.amount}`
                 income_list.appendChild(income_list_item);
             }
-        });expense
+        });
 
+    }
+
+    function calculateTotalIncome() {
+        if(transactions === null) {
+            return 0;
+        }
+        income = 0;
+        transactions.forEach((transaction)=>{
+            if(transaction.type === "income") {
+                income += transaction.amount;
+            }
+        })
+        return income;
+    }
+
+    function calculateTotalExpense() {
+        if(transactions == null) {
+            return 0;
+        }
+        expense = 0;
+        transactions.forEach((transaction)=>{
+            if(transaction.type === "expense") {
+                expense += transaction.amount;
+            }
+        });
+        return expense;
+    }
+
+    function displayTotalIncome() {
+        document.getElementById("total_income").innerHTML = calculateTotalIncome();
+    }
+        function displayTotalExpense() {
+        document.getElementById("total_expense").innerHTML = calculateTotalExpense();
     }
     //function to read opening balance from local storage
     function readOpeningBalance() {
@@ -167,6 +208,8 @@
     setOpeningBalanceHTML();
     listExpenses();
     listIncome();
+    displayTotalIncome();
+    displayTotalExpense();
 </script>
 
 </html>
