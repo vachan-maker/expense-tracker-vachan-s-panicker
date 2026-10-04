@@ -4,6 +4,7 @@
 <head>
     <title>Expense Tracker</title>
 </head>
+<body>
 <h1>Expense Tracker</h1>
 <section id="opening_balance_section">
     <p>Opening Balance</p>
@@ -76,8 +77,10 @@
         </ul>
     </section>
 </section>
+
 <script>
     let transactions = getTransactions();
+    let balance = calculateBalance();
     function setTransactions(transactions) {
         localStorage.setItem("transactions", JSON.stringify(transactions));
     }
@@ -148,7 +151,7 @@
         if (transactions === null) {
             return 0;
         }
-        income = 0;
+        let income = 0;
         transactions.forEach((transaction) => {
             if (transaction.type === "income") {
                 income += transaction.amount;
@@ -161,7 +164,7 @@
         if (transactions == null) {
             return 0;
         }
-        expense = 0;
+        let expense = 0;
         transactions.forEach((transaction) => {
             if (transaction.type === "expense") {
                 expense += transaction.amount;
@@ -169,7 +172,9 @@
         });
         return expense;
     }
-
+    function calculateBalance () {
+        return readOpeningBalance() +calculateTotalIncome() - calculateTotalExpense();
+    }
     function displayTotalIncome() {
         document.getElementById("total_income").innerHTML = calculateTotalIncome();
     }
@@ -179,6 +184,9 @@
     //function to read opening balance from local storage
     function readOpeningBalance() {
         let opening_balance = parseFloat(localStorage.getItem("opening_balance"));
+        if(opening_balance == null) {
+            return 0;
+        }
         return opening_balance;
     }
     //function to set opening balance in local storage
@@ -194,7 +202,7 @@
     //we are settng the balance as the html value
     function setOpeningBalanceHTML() {
         const opening_balance = readOpeningBalance();
-        if (opening_balance) {
+        if (!Number.isNaN(opening_balance)) {
             document.getElementById("opening_balance").innerHTML = readOpeningBalance();
         }
         else {
@@ -222,6 +230,9 @@
         transactions.push(transaction);
         setTransactions(transactions);
         listExpenses();
+        displayTotalExpense();
+        balance = calculateBalance();
+        document.getElementById("expense_form").reset();
     }
     function submitIncomeForm(e) {
         e.preventDefault();
@@ -238,6 +249,9 @@
         transactions.push(transaction);
         setTransactions(transactions);
         listIncome();
+        displayTotalIncome();
+        balance = calculateBalance();
+        document.getElementById("income_form").reset();
 
     }
 
@@ -247,5 +261,5 @@
     displayTotalIncome();
     displayTotalExpense();
 </script>
-
+</body>
 </html>
