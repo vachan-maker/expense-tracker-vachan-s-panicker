@@ -108,7 +108,7 @@
         transactions.forEach((transaction) => {
             if (transaction.type === "expense") {
                 const expense_list_item = document.createElement("li");
-                expense_list_item.textContent = `${transaction.description} - ${transaction.amount}`
+                expense_list_item.textContent = `${transaction.description} - ${transaction.amount} (${transaction.date})`
                 expense_list.appendChild(expense_list_item);
             }
         });
@@ -123,7 +123,7 @@
             if (transaction.type === "expense") {
                 if (expenseFilterValue === "all" || transaction.category === expenseFilterValue) {
                     const expense_list_item = document.createElement("li");
-                    expense_list_item.textContent = `${transaction.description} - ${transaction.amount}`;
+                    expense_list_item.textContent = `${transaction.description} - ${transaction.amount} (${transaction.date})`;
                     expense_list.appendChild(expense_list_item);
                 }
             }
@@ -138,7 +138,7 @@
             if (transaction.type === "income") {
                 if (incomeFilterValue === "all" || transaction.category === incomeFilterValue) {
                     const income_list_item = document.createElement("li");
-                    income_list_item.textContent = `${transaction.description} - ${transaction.amount}`;
+                    income_list_item.textContent = `${transaction.description} - ${transaction.amount} (${transaction.date})`;
                     income_list.appendChild(income_list_item);
                 }
             }
@@ -152,7 +152,7 @@
         transactions.forEach((transaction) => {
             if (transaction.type === "income") {
                 const income_list_item = document.createElement("li");
-                income_list_item.textContent = `${transaction.description} - ${transaction.amount}`
+                income_list_item.textContent = `${transaction.description} - ${transaction.amount} (${transaction.date})`
                 income_list.appendChild(income_list_item);
             }
         });
