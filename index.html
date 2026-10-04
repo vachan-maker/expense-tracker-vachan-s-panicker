@@ -27,14 +27,37 @@
         </select>
         <input type="submit" value="Add Expense" />
     </form>
+    <input type="button" value="Add Income" onclick="showIncomeForm()" />
+    <form style="display: none;" id="income_form" onsubmit="submitIncomeForm(event)">
+        <label for="income_amount">Amount</label>
+        <input type="number" name="amount" id="income_amount" />
+        <label for="income_date">Date</label>
+        <input type="date" name="date" id="income_date" />
+        <label for="income_description">Description</label>
+        <input type="text" name="income_description" id="income_description" />
+        <label for="income_category">Category</label>
+        <select id="income_category">
+            <option value="savings">Savings</option>
+            <option value="gift">Gift</option>
+            <option value="salary">Salary</option>
+        </select>
+        <input type="submit" value="Add Income" />
+    </form>
 </section>
-<section id="expense_list_section">
-    <h2>Expense</h2>
-    <ul id="expense_list">
+<section class="transaction_list" style="display: flex; flex-direction: row;">
+    <section id="expense_list_section">
+        <h2>Expense</h2>
+        <ul id="expense_list">
 
-    </ul>
+        </ul>
+    </section>
+    <section id="income_list_section">
+        <h2>Income</h2>
+        <ul id="income_list">
+
+        </ul>
+    </section>
 </section>
-
 <script>
     let transactions = getTransactions();
     function setTransactions(transactions) {
@@ -53,13 +76,27 @@
         //we have to clear  the list for rebuilding otherwise elenments get appended to itself..this prevents repition
         expense_list.innerHTML = ""
 
-        transactions.forEach((transaction)=> {
-            if(transaction.type === "expense") {
+        transactions.forEach((transaction) => {
+            if (transaction.type === "expense") {
                 const expense_list_item = document.createElement("li");
                 expense_list_item.textContent = `${transaction.description} - ${transaction.amount}`
                 expense_list.appendChild(expense_list_item);
             }
         });
+
+    }
+        function listIncome() {
+        const income_list = document.getElementById("income_list");
+        //we have to clear  the list for rebuilding otherwise elenments get appended to itself..this prevents repition
+        income_list.innerHTML = ""
+
+        transactions.forEach((transaction) => {
+            if (transaction.type === "income") {
+                const income_list_item = document.createElement("li");
+                income_list_item.textContent = `${transaction.description} - ${transaction.amount}`
+                income_list.appendChild(income_list_item);
+            }
+        });expense
 
     }
     //function to read opening balance from local storage
@@ -90,7 +127,9 @@
     function showExpenseForm() {
         document.getElementById("expense_form").style.display = "block";
     }
-
+    function showIncomeForm() {
+        document.getElementById("income_form").style.display = "block";
+    }
     function submitExpenseForm(e) {
         e.preventDefault();
         const type = "expense";
@@ -107,9 +146,27 @@
         setTransactions(transactions);
         listExpenses();
     }
+    function submitIncomeForm(e) {
+        e.preventDefault();
+        const type = "income";
+        const amount = parseFloat(document.getElementById("income_amount").value);
+        const date = document.getElementById("income_date").value;
+        const description = document.getElementById("income_description").value;
+        const category = document.getElementById("income_category").value;
+
+        const transaction = {
+            type, amount, date, description, category
+        }
+
+        transactions.push(transaction);
+        setTransactions(transactions);
+        listIncome();
+
+    }
 
     setOpeningBalanceHTML();
     listExpenses();
+    listIncome();
 </script>
 
 </html>
