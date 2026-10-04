@@ -55,6 +55,11 @@
 <section class="transaction_list" style="display: flex; flex-direction: row;">
     <section id="expense_list_section">
         <h2>Expense</h2>
+        <select id="expense_filter" onchange="filterExpenses()">
+            <option value="food">Food</option>
+            <option value="transport">Transport</option>
+            <option value="shopping">Shopping</option>
+        </select>
         <ul id="expense_list">
 
         </ul>
@@ -93,7 +98,20 @@
         });
 
     }
-        function listIncome() {
+    function filterExpenses() {
+        const expenseFilterValue = document.getElementById("expense_filter").value;
+        const expense_list = document.getElementById("expense_list");
+        expense_list.innerHTML = "";
+
+        transactions.forEach((transaction) => {
+            if (transaction.type === "expense" && transaction.category === expenseFilterValue) {
+                const expense_list_item = document.createElement("li");
+                expense_list_item.textContent = `${transaction.description} - ${transaction.amount}`;
+                expense_list.appendChild(expense_list_item);
+            }
+        });
+    }
+    function listIncome() {
         const income_list = document.getElementById("income_list");
         //we have to clear  the list for rebuilding otherwise elenments get appended to itself..this prevents repition
         income_list.innerHTML = ""
@@ -109,12 +127,12 @@
     }
 
     function calculateTotalIncome() {
-        if(transactions === null) {
+        if (transactions === null) {
             return 0;
         }
         income = 0;
-        transactions.forEach((transaction)=>{
-            if(transaction.type === "income") {
+        transactions.forEach((transaction) => {
+            if (transaction.type === "income") {
                 income += transaction.amount;
             }
         })
@@ -122,12 +140,12 @@
     }
 
     function calculateTotalExpense() {
-        if(transactions == null) {
+        if (transactions == null) {
             return 0;
         }
         expense = 0;
-        transactions.forEach((transaction)=>{
-            if(transaction.type === "expense") {
+        transactions.forEach((transaction) => {
+            if (transaction.type === "expense") {
                 expense += transaction.amount;
             }
         });
@@ -137,7 +155,7 @@
     function displayTotalIncome() {
         document.getElementById("total_income").innerHTML = calculateTotalIncome();
     }
-        function displayTotalExpense() {
+    function displayTotalExpense() {
         document.getElementById("total_expense").innerHTML = calculateTotalExpense();
     }
     //function to read opening balance from local storage
