@@ -63,6 +63,7 @@
     <section id="expense_list_section">
         <h2>Expense</h2>
         <select id="expense_filter" onchange="filterExpenses()">
+            <option value="all">All</option>
             <option value="food">Food</option>
             <option value="transport">Transport</option>
             <option value="shopping">Shopping</option>
@@ -74,6 +75,7 @@
     <section id="income_list_section">
         <h2>Income</h2>
                 <select id="income_filter" onchange="filterIncome()">
+            <option value="all">All</option>
             <option value="savings">Savings</option>
             <option value="gift">Gift</option>
             <option value="salary">Salary</option>
@@ -118,10 +120,12 @@
         expense_list.innerHTML = "";
 
         transactions.forEach((transaction) => {
-            if (transaction.type === "expense" && transaction.category === expenseFilterValue) {
-                const expense_list_item = document.createElement("li");
-                expense_list_item.textContent = `${transaction.description} - ${transaction.amount}`;
-                expense_list.appendChild(expense_list_item);
+            if (transaction.type === "expense") {
+                if (expenseFilterValue === "all" || transaction.category === expenseFilterValue) {
+                    const expense_list_item = document.createElement("li");
+                    expense_list_item.textContent = `${transaction.description} - ${transaction.amount}`;
+                    expense_list.appendChild(expense_list_item);
+                }
             }
         });
     }
@@ -131,10 +135,12 @@
         income_list.innerHTML = "";
 
         transactions.forEach((transaction) => {
-            if (transaction.type === "income" && transaction.category === incomeFilterValue) {
-                const income_list_item = document.createElement("li");
-                income_list_item.textContent = `${transaction.description} - ${transaction.amount}`;
-                income_list.appendChild(income_list_item);
+            if (transaction.type === "income") {
+                if (incomeFilterValue === "all" || transaction.category === incomeFilterValue) {
+                    const income_list_item = document.createElement("li");
+                    income_list_item.textContent = `${transaction.description} - ${transaction.amount}`;
+                    income_list.appendChild(income_list_item);
+                }
             }
         });
     }
@@ -154,7 +160,7 @@
     }
 
     function calculateTotalIncome() {
-        if (transactions === null) {
+        if (transactions == []) {
             return 0;
         }
         let income = 0;
@@ -195,7 +201,7 @@
     //function to read opening balance from local storage
     function readOpeningBalance() {
         let opening_balance = parseFloat(localStorage.getItem("opening_balance"));
-        if(opening_balance == null) {
+        if(opening_balance == NaN) {
             return 0;
         }
         return opening_balance;
@@ -209,6 +215,7 @@
         let inputBalance = parseFloat(prompt("Enter Opening Balance"));
         setOpeningBalance(inputBalance);
         setOpeningBalanceHTML();
+        calculateBalance();
     }
     //we are settng the balance as the html value
     function setOpeningBalanceHTML() {
